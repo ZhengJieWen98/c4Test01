@@ -1,4 +1,4 @@
-package csdn.test;
+package csdn.pojo;
 
 public class Person {
     private String name;//名称
