@@ -34,73 +34,6 @@ public class Department {
     private double reservedFundsSelf;//个人公积金
     private double reservedFundsConpany;//公司公积金
 
-    @Override
-    public String toString() {
-        return "工号:"+jobNumber+
-                " 姓名:"+name+
-                " 部门:"+department+
-                " 工资:"+getAdd()+
-                " 扣款:"+getMinusYield()+
-                "养老(个人):"+endowmentInsuranceSelf+
-                "医疗(个人):"+medicareSelf+
-                "失业(个人):"+unemploymentInsuranceSelf+
-                "工伤(个人):"+employmentInjuryInsuranceSelf+
-                "生育(个人):"+birthInsuranceSelf+
-                "公积金(个人):"+reservedFundsSelf+
-                "合计(个人):"+getSelf()+
-                "养老(公司):"+endowmentInsuranceCompany+
-                "医疗(公司):"+medicareCompany+
-                "失业(公司):"+unemploymentInsuranceConpany+
-                "工伤(公司):"+employmentInjuryInsuranceConpany+
-                "生育(公司):"+birthInsuranceConpany+
-                "公积金(公司):"+reservedFundsConpany+
-                "合计(公司):"+getConpany()+
-                "个税金额:"+getTax()+
-                " 应发工资:"+getSalary()+
-                "实发工资"+getNetPayroll()+
-                "企业支出成本:"+getAllConpany();
-
-    }
-
-    //个人缴纳部分
-    public double getSelf(){
-        return endowmentInsuranceSelf+medicareSelf+unemploymentInsuranceSelf+employmentInjuryInsuranceSelf+birthInsuranceSelf+reservedFundsSelf;
-    }
-    //企业缴纳部分
-    public double getConpany(){
-        return endowmentInsuranceCompany+medicareCompany+unemploymentInsuranceConpany+employmentInjuryInsuranceConpany+birthInsuranceConpany+reservedFundsConpany;
-    }
-    //应发工资+企业缴纳五险一金”的结果填入“企业人员月度工资成本支付表.xlsx“的“企业支出成本”一栏。
-    public double getAllConpany(){
-        return getSalary()+getConpany();
-    }
-    //应发工资-五险一金个人缴纳部分”的结果等于“应税金额” 个人税
-    public double getTax(){
-        double gz = getSalary()-getSelf();
-        double s;
-        if(gz<3000){
-            s=gz*0.003;
-        }else if(gz<=12000){
-            s=gz*0.1;
-        }else if(gz<=25000){
-            s=gz*0.2;
-        }else if(gz<=35000){
-            s=gz*0.25;
-        }else if(gz<=55000){
-            s=gz*0.3;
-        }else if(gz<=80000){
-            s=gz*0.35;
-        }else {
-            s=gz*0.45;
-        }
-        return s;
-    }
-
-    //“应发工资-五险一金个人缴纳部分-个税”的结果填入“企业人员月度工资成本支付表.xlsx“的“实发工资”一栏。
-    public double getNetPayroll(){
-        return getSalary()-getSelf()-getTax();
-    }
-
     public double getEndowmentInsuranceSelf() {
         return endowmentInsuranceSelf;
     }
@@ -303,5 +236,71 @@ public class Department {
         return getAdd()-getMinusYield();
     }
 
+    //个人缴纳部分
+    public double getSelf(){
+        return endowmentInsuranceSelf+medicareSelf+unemploymentInsuranceSelf+employmentInjuryInsuranceSelf+birthInsuranceSelf+reservedFundsSelf;
+    }
+    //企业缴纳部分
+    public double getConpany(){
+        return endowmentInsuranceCompany+medicareCompany+unemploymentInsuranceConpany+employmentInjuryInsuranceConpany+birthInsuranceConpany+reservedFundsConpany;
+    }
+    //应发工资+企业缴纳五险一金”的结果填入“企业人员月度工资成本支付表.xlsx“的“企业支出成本”一栏。
+    public double getAllConpany(){
+        return getSalary()+getConpany();
+    }
+    //应发工资-五险一金个人缴纳部分”的结果等于“应税金额” 个人税
+    public double getTax(){
+        double gz = getSalary()-getSelf();
+        double s;
+        if(gz<3000){
+            s=gz*0.003;
+        }else if(gz<=12000){
+            s=gz*0.1;
+        }else if(gz<=25000){
+            s=gz*0.2;
+        }else if(gz<=35000){
+            s=gz*0.25;
+        }else if(gz<=55000){
+            s=gz*0.3;
+        }else if(gz<=80000){
+            s=gz*0.35;
+        }else {
+            s=gz*0.45;
+        }
+        return s;
+    }
+
+    //“应发工资-五险一金个人缴纳部分-个税”的结果填入“企业人员月度工资成本支付表.xlsx“的“实发工资”一栏。
+    public double getNetPayroll(){
+        return getSalary()-getSelf()-getTax();
+    }
+
+    @Override
+    public String toString() {
+        return "工号:"+jobNumber+
+                " 姓名:"+name+
+                " 部门:"+department+
+                " 工资:"+getAdd()+
+                " 扣款:"+getMinusYield()+
+                "养老(个人):"+endowmentInsuranceSelf+
+                "医疗(个人):"+medicareSelf+
+                "失业(个人):"+unemploymentInsuranceSelf+
+                "工伤(个人):"+employmentInjuryInsuranceSelf+
+                "生育(个人):"+birthInsuranceSelf+
+                "公积金(个人):"+reservedFundsSelf+
+                "合计(个人):"+getSelf()+
+                "养老(公司):"+endowmentInsuranceCompany+
+                "医疗(公司):"+medicareCompany+
+                "失业(公司):"+unemploymentInsuranceConpany+
+                "工伤(公司):"+employmentInjuryInsuranceConpany+
+                "生育(公司):"+birthInsuranceConpany+
+                "公积金(公司):"+reservedFundsConpany+
+                "合计(公司):"+getConpany()+
+                "个税金额:"+getTax()+
+                " 应发工资:"+getSalary()+
+                "实发工资"+getNetPayroll()+
+                "企业支出成本:"+getAllConpany();
+
+    }
 
 }

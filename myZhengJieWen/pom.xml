@@ -46,7 +46,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>www.excel.test.ExcelWriter</mainClass>
+                            <mainClass>csdn.main.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

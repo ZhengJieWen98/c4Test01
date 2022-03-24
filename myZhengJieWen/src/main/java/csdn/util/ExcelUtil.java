@@ -1,67 +1,20 @@
 package csdn.util;
 
 import csdn.pojo.Department;
-import csdn.pojo.Person;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.*;
-import java.net.URL;
 import java.util.*;
 
 public class ExcelUtil {
-    public static void main(String[] args) throws IOException {
-        Map<String,Department> map = new TreeMap<String, Department>();
-        ExcelUtil excelUtil = new ExcelUtil();
-        //获取到部门员工的数据
-        InputStream resourceAsStream1 = excelUtil.getClass().getClassLoader().getResourceAsStream("研发部-薪酬表.xlsx");
-        excelUtil.readExcel_Department("研发部", resourceAsStream1,map);
-        //获取到部门员工的数据
-        InputStream resourceAsStream2 = excelUtil.getClass().getClassLoader().getResourceAsStream("大客户部-薪酬表.xlsx");
-        excelUtil.readExcel_Department("大客户部",resourceAsStream2,map);
-        //获取到部门员工的数据
-        InputStream resourceAsStream3 = excelUtil.getClass().getClassLoader().getResourceAsStream("市场部-薪酬表.xlsx");
-        excelUtil.readExcel_Department("市场部",resourceAsStream3,map);
-        //获取到部门员工的数据
-        InputStream resourceAsStream4 = excelUtil.getClass().getClassLoader().getResourceAsStream("销售部-薪酬表.xlsx");
-        excelUtil.readExcel_Department("销售部",resourceAsStream4,map);
-
-        //读取员工五险一金申报表
-        InputStream resourceAsStream5 = excelUtil.getClass().getClassLoader().getResourceAsStream("员工五险一金申报表.xlsx");
-        excelUtil.readExcel_Department(resourceAsStream5,map);
-
-
-        Set<String> strings = map.keySet();
-        for(String str:strings){
-            Department department = map.get(str);
-            System.out.println(str+" "+department);
-        }
-
-
-        String str = "C:\\Users\\38306\\Desktop\\企业员工月度工资成本支付表.xlsx";
-        File file = new File(str);
-
-        excelUtil.fillExcel_Department(map,file);
-
-//        String path = ExcelUtil.class.getClassLoader().getResource("企业员工月度工资成本支付表.xlsx").getPath();
-//        System.out.println();
-//        File file = new File("企业员工月度工资成本支付表.xlsx");
-//        System.out.println(file.exists());
-
-
-
-
-    }
-
-
     /**
-     *
-     * @param departmentName
-     * @param inputStream
-     * @return
+     * 获取各个部门的数据
+     * @param departmentName 部门名
+     * @param inputStream 输入流
+     * @param map 存储数据的集合
      * @throws IOException
      */
     public void readExcel_Department(String departmentName, InputStream inputStream,Map<String,Department> map) throws IOException {
@@ -91,9 +44,9 @@ public class ExcelUtil {
     }
 
     /**
-     *
-     * @param inputStream
-     * @param map
+     * 读取五险一金的数据
+     * @param inputStream 输入流
+     * @param map 计算出五险一金的数据存储在map集合中
      * @throws IOException
      */
     public void readExcel_Department(InputStream inputStream,Map<String,Department> map) throws IOException {
@@ -134,9 +87,9 @@ public class ExcelUtil {
     }
 
     /**
-     *
-     * @param data
-     * @param destFile
+     * 存储数据
+     * @param data 存储数据的集合
+     * @param destFile 存储目标文件
      * @throws IOException
      */
     public void fillExcel_Department(Map<String,Department> data, File destFile) throws IOException {
@@ -144,9 +97,34 @@ public class ExcelUtil {
         XSSFWorkbook xssfWorkbook = new XSSFWorkbook();
         //在工作簿里创建一张表
         XSSFSheet sheet = xssfWorkbook.createSheet("用户");
+        //
+        XSSFRow row = sheet.createRow(0);
+        row.createCell(0).setCellValue("工号");
+        row.createCell(1).setCellValue("姓名");
+        row.createCell(2).setCellValue("部门");
+        row.createCell(3).setCellValue("工资");
+        row.createCell(4).setCellValue("扣款");
+        row.createCell(5).setCellValue("养老(个人)");
+        row.createCell(6).setCellValue("医疗(个人)");
+        row.createCell(7).setCellValue("失业(个人)");
+        row.createCell(8).setCellValue("工伤(个人)");
+        row.createCell(9).setCellValue("生育(个人)");
+        row.createCell(10).setCellValue("公积金(个人)");
+        row.createCell(11).setCellValue("合计(公司)");
+        row.createCell(12).setCellValue("养老(公司)");
+        row.createCell(13).setCellValue("医疗(公司)");
+        row.createCell(14).setCellValue("失业(公司)");
+        row.createCell(15).setCellValue("工伤(公司)");
+        row.createCell(16).setCellValue("生育(公司)");
+        row.createCell(17).setCellValue("公积金(公司)");
+        row.createCell(18).setCellValue("合计(公司)");
+        row.createCell(19).setCellValue("个税金额");
+        row.createCell(20).setCellValue("应发工资");
+        row.createCell(21).setCellValue("实发工资");
+        row.createCell(22).setCellValue("企业支出成本");
         //行中添加数据
         Set<String> keys = data.keySet();
-        int i=2;
+        int i=1;
         for(String str:keys){
             Department department = data.get(str);
             //正收益
@@ -156,12 +134,52 @@ public class ExcelUtil {
             //应发工资=工资-扣款
             double wages = department.getSalary();
             XSSFRow r = sheet.createRow(i++);
+            //工号
             r.createCell(0).setCellValue(department.getJobNumber());
+            //姓名
             r.createCell(1).setCellValue(department.getName());
+            //部门
             r.createCell(2).setCellValue(department.getDepartment());
-            r.createCell(3).setCellValue(add);
-            r.createCell(4).setCellValue(decrease);
-            r.createCell(20).setCellValue(wages);
+            //工资
+            r.createCell(3).setCellValue(department.getAdd());
+            //扣款
+            r.createCell(4).setCellValue(department.getMinusYield());
+            //养老(个人)
+            r.createCell(5).setCellValue(department.getEndowmentInsuranceSelf());
+            //医疗(个人)
+            r.createCell(6).setCellValue(department.getMedicareSelf());
+            //失业(个人)
+            r.createCell(7).setCellValue(department.getUnemploymentInsuranceSelf());
+            //工伤(个人)
+            r.createCell(8).setCellValue(department.getEmploymentInjuryInsuranceSelf());
+            //生育(个人)
+            r.createCell(9).setCellValue(department.getBirthInsuranceSelf());
+            //公积金(个人)
+            r.createCell(10).setCellValue(department.getReservedFundsSelf());
+            //合计(个人)
+            r.createCell(11).setCellValue(department.getSelf());
+            //养老(公司)
+            r.createCell(12).setCellValue(department.getEndowmentInsuranceCompany());
+            //医疗(公司)
+            r.createCell(13).setCellValue(department.getMedicareCompany());
+            //失业(公司)
+            r.createCell(14).setCellValue(department.getUnemploymentInsuranceConpany());
+            //工伤(公司)
+            r.createCell(15).setCellValue(department.getEmploymentInjuryInsuranceConpany());
+            //生育(公司)
+            r.createCell(16).setCellValue(department.getBirthInsuranceConpany());
+            //公积金(公司)
+            r.createCell(17).setCellValue(department.getReservedFundsConpany());
+            //合计(公司)
+            r.createCell(18).setCellValue(department.getConpany());
+            //个税金额
+            r.createCell(19).setCellValue(department.getTax());
+            //应发工资
+            r.createCell(20).setCellValue(department.getSalary());
+            //实发工资
+            r.createCell(21).setCellValue(department.getNetPayroll());
+            //企业支出成本
+            r.createCell(22).setCellValue(department.getAllConpany());
         }
         FileOutputStream fileOutputStream = new FileOutputStream(destFile);
         xssfWorkbook.write(fileOutputStream);
