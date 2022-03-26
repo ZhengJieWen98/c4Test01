@@ -110,7 +110,7 @@ public class ExcelUtil {
         row.createCell(8).setCellValue("工伤(个人)");
         row.createCell(9).setCellValue("生育(个人)");
         row.createCell(10).setCellValue("公积金(个人)");
-        row.createCell(11).setCellValue("合计(公司)");
+        row.createCell(11).setCellValue("合计(个人)");
         row.createCell(12).setCellValue("养老(公司)");
         row.createCell(13).setCellValue("医疗(公司)");
         row.createCell(14).setCellValue("失业(公司)");
